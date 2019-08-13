@@ -26,7 +26,10 @@ namespace FidgetPro.Fidgetmaster.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSpa(config => { config.UseProxyToSpaDevelopmentServer("http://localhost:8080"); });
+            app.UseSpa(config =>
+            {
+                config.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+            });
         }
     }
 }
