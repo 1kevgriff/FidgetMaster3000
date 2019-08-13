@@ -15,4 +15,8 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FidgetPro.Fidgetmaster.Business\FidgetPro.Fidgetmaster.Business.csproj" />
+  </ItemGroup>
+
 </Project>
