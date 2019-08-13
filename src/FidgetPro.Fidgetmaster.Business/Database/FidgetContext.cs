@@ -42,6 +42,12 @@ namespace FidgetPro.Fidgetmaster.Business.Database
                     IsFlying = false,
                     IsSpinning = false
                 });
+
+            modelBuilder.Entity<Fidget>().HasData(new Fidget()
+            {
+                Color = "Green", Id = 1, Name = "Foo", TypeId = 2
+            });
+
             base.OnModelCreating(modelBuilder);
         }
 

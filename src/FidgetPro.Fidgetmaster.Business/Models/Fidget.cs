@@ -9,7 +9,9 @@ namespace FidgetPro.Fidgetmaster.Business.Models
         [Key]
         public long Id { get; set; }
         public string Name { get; set; }
+
         public FidgetType Type { get; set; }
+        public long TypeId { get; set; }
 
         public string Color { get; set; }
     }

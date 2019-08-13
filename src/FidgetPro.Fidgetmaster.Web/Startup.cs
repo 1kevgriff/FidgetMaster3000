@@ -29,6 +29,7 @@ namespace FidgetPro.Fidgetmaster.Web
             services.AddMvc();
 
             services.AddTransient<IFidgetTypeRepository, SqlFidgetTypeRepository>();
+            services.AddTransient<IFidgetRepository, SqlFidgetRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
