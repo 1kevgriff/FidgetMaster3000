@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FidgetPro.Fidgetmaster.Web.Database;
+using FidgetPro.Fidgetmaster.Business.Contracts;
+using FidgetPro.Fidgetmaster.Business.Database;
+using FidgetPro.Fidgetmaster.Business.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +27,8 @@ namespace FidgetPro.Fidgetmaster.Web
                 options.UseSqlServer(connectionString);
             });
             services.AddMvc();
+
+            services.AddTransient<IFidgetTypeRepository, SqlFidgetTypeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

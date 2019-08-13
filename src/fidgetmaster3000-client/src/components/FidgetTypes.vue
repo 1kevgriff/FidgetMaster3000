@@ -4,5 +4,21 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapState, mapActions } from "vuex";
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState({
+      fidgetTypes: state => state.fidgetTypes
+    })
+  },
+  methods: {
+      ...mapActions(["loadFidgetTypes"])
+  },
+  created(){
+      this.loadFidgetTypes();
+  }
+};
 </script>

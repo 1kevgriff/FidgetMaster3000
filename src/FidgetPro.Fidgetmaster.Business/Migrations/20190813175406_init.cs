@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FidgetPro.Fidgetmaster.Web.Migrations
+namespace FidgetPro.Fidgetmaster.Business.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,21 @@ namespace FidgetPro.Fidgetmaster.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "FidgetTypes",
+                columns: new[] { "Id", "DesignedDate", "IsBouncing", "IsFlying", "IsSpinning", "TypeName" },
+                values: new object[] { 1L, new DateTime(2019, 8, 13, 17, 54, 5, 954, DateTimeKind.Utc).AddTicks(2892), false, true, true, "Thingamajig" });
+
+            migrationBuilder.InsertData(
+                table: "FidgetTypes",
+                columns: new[] { "Id", "DesignedDate", "IsBouncing", "IsFlying", "IsSpinning", "TypeName" },
+                values: new object[] { 2L, new DateTime(2019, 8, 13, 17, 54, 5, 954, DateTimeKind.Utc).AddTicks(4890), true, false, true, "Domaflotitch" });
+
+            migrationBuilder.InsertData(
+                table: "FidgetTypes",
+                columns: new[] { "Id", "DesignedDate", "IsBouncing", "IsFlying", "IsSpinning", "TypeName" },
+                values: new object[] { 3L, new DateTime(2019, 8, 13, 17, 54, 5, 954, DateTimeKind.Utc).AddTicks(4903), false, false, false, "Chad" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Fidgets_TypeId",
