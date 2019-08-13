@@ -9,5 +9,6 @@ namespace FidgetPro.Fidgetmaster.Business.Contracts
     public interface IFidgetTypeRepository
     {
         Task<List<FidgetType>> GetFidgetTypes();
+        Task CreateOrUpdate(FidgetType fidgetType);
     }
 }

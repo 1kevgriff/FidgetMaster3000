@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FidgetPro.Fidgetmaster.Business.Contracts;
@@ -21,6 +22,27 @@ namespace FidgetPro.Fidgetmaster.Business.Repositories
         public async Task<List<FidgetType>> GetFidgetTypes()
         {
             return await _context.FidgetTypes.ToListAsync();
+        }
+
+        public async Task CreateOrUpdate(FidgetType fidgetType)
+        {
+            var existing = await _context.FidgetTypes.FindAsync(fidgetType.Id);
+            if (existing == null)
+            {
+                // create
+                fidgetType.DesignedDate = DateTime.UtcNow;
+                await _context.FidgetTypes.AddAsync(fidgetType);
+            }
+            else
+            {
+                // update
+                existing.IsBouncing = fidgetType.IsBouncing;
+                existing.IsFlying = fidgetType.IsFlying;
+                existing.IsSpinning = fidgetType.IsSpinning;
+                existing.TypeName = fidgetType.TypeName;
+            }
+
+            await _context.SaveChangesAsync(true);
         }
     }
 }

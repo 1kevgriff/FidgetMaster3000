@@ -24,5 +24,13 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
         {
             return Ok(await _fidgetTypeRepository.GetFidgetTypes());
         }
+
+        [HttpPost("")]
+        public async Task<IActionResult> CreateOrUpdateFidgetType(FidgetType fidgetType)
+        {
+            await _fidgetTypeRepository.CreateOrUpdate(fidgetType);
+
+            return Ok();
+        }
     }
 }
