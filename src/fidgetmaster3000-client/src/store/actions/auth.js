@@ -66,3 +66,15 @@ function isTokenExpired(token) {
     const expirationDate = getTokenExpirationDate(token);
     return expirationDate < new Date();
 }
+
+export function canApproveFidgets() {
+    var tokenFromStorage = getIdToken();
+    if (tokenFromStorage) {
+        const token = decode(tokenFromStorage);
+
+        if (token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "CanApproveFidgets")
+            return true;
+        else
+            return false;
+    } else return false;
+}

@@ -14,7 +14,7 @@ namespace FidgetPro.Fidgetmaster.Business.Database
         }
         public DbSet<Fidget> Fidgets { get; set; }
         public DbSet<FidgetType> FidgetTypes { get; set; }
-        public DbSet<IdentityUser> Users { get; set; }
+        public DbSet<FidgetUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

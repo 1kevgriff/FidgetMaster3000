@@ -16,10 +16,10 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<FidgetUser> _userManager;
+        private readonly SignInManager<FidgetUser> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<FidgetUser> userManager, SignInManager<FidgetUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -48,26 +48,26 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
 
             var response = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new {jwt = response, expires, user.UserName});
+            return Ok(new { jwt = response, expires, user.UserName });
         }
 
-        private async Task<JwtSecurityToken> CreateJwtKey(IdentityUser user, DateTime expires)
+        private async Task<JwtSecurityToken> CreateJwtKey(FidgetUser user, DateTime expires)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.JwtKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var now = DateTimeOffset.UtcNow;
 
-            //var roles = await _userManager.GetRolesAsync(user);
-
             var claims = new List<Claim>(){
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, now.ToUnixTimeSeconds().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, now.ToUnixTimeSeconds().ToString())
             };
 
-            //claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
+            if (user.CanApprovedFidgets)
+                claims.Add(new Claim(ClaimTypes.Role, "CanApproveFidgets"));
+
 
             JwtSecurityToken token = new JwtSecurityToken(
                 "https://kevgriffin.com",
@@ -83,7 +83,7 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
         [HttpGet("seed")]
         public async Task<IActionResult> Seed()
         {
-            var result = await _userManager.CreateAsync(new IdentityUser("kevin")
+            var result = await _userManager.CreateAsync(new FidgetUser("kevin")
             {
                 Email = "kevin@kevin.com"
             }, "foobar");

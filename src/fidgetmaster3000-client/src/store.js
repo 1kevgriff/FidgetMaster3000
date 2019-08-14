@@ -10,16 +10,19 @@ import fidgetMutations from "./store/mutations/fidgets";
 import loginActions from "./store/actions/login";
 import loginMutations from "./store/mutations/login";
 
-import { setHeader } from "./store/actions/auth";
+import { setHeader, canApproveFidgets } from "./store/actions/auth";
 setHeader();
 
 Vue.use(Vuex);
+
+const userCanApproveFidgets = canApproveFidgets();
 
 export default new Vuex.Store({
   state: {
     fidgetTypes: [],
     fidgets: [],
-    loginError: ""
+    loginError: "",
+    canApproveFidgets: userCanApproveFidgets
   },
   mutations: {
     ...fidgetTypeMutations,

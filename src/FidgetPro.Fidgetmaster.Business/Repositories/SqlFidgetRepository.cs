@@ -21,7 +21,7 @@ namespace FidgetPro.Fidgetmaster.Business.Repositories
             return await _context.Fidgets.Include("Type").ToListAsync();
         }
 
-        public async Task CreateOrUpdate(Fidget fidget)
+        public async Task CreateOrUpdate(Fidget fidget, string userName)
         {
             var existing = await _context.Fidgets.FindAsync(fidget.Id);
             if (existing == null)
@@ -34,6 +34,12 @@ namespace FidgetPro.Fidgetmaster.Business.Repositories
 
                 existing.Color = fidget.Color;
                 existing.Name = fidget.Name;
+                if (!existing.IsApproved && fidget.IsApproved)
+                {
+                    existing.IsApproved = fidget.IsApproved;
+                    existing.ApprovedBy = userName;
+                }
+
                 existing.Type = findType; // better, but i don't like this
             }
 

@@ -14,5 +14,8 @@ namespace FidgetPro.Fidgetmaster.Business.Models
         public long TypeId { get; set; }
 
         public string Color { get; set; }
+
+        public bool IsApproved { get; set; }
+        public string ApprovedBy { get; set; }
     }
 }

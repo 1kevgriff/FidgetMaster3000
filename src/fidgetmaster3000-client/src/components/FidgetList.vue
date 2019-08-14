@@ -3,7 +3,19 @@
     <v-card>
       <v-card-title>Fidgets</v-card-title>
       <v-card-text>
-        <v-data-table :items="fidgets" :headers="headers">
+        <v-data-table :items="filteredFidgets" :headers="headers">
+          <template v-slot:top>
+            <v-switch v-model="showUnapproved" label="Show Just Unapproved"></v-switch>
+          </template>
+          <template v-slot:item.isApproved="{item}">
+            <v-chip v-if="item.isApproved" class="ma-2" color="green" text-color="white">
+              <v-icon>check</v-icon>
+              &nbsp;by {{item.approvedBy}}
+            </v-chip>
+            <v-chip v-else class="ma-2" color="red" text-color="white">
+              <v-icon>cancel</v-icon>
+            </v-chip>
+          </template>
           <template v-slot:item.actions="{item}">
             <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
             <v-icon small @click="deleteItem(item)">delete</v-icon>
@@ -20,7 +32,13 @@
         <v-card-text>
           <v-text-field v-model="editObject.name" label="Fidget Name"></v-text-field>
           <v-select v-model="editObject.color" :items="colors" item-text="text" item-value="value"></v-select>
-          <v-select v-model="editObject.typeId" :items="fidgetTypes" item-text="typeName" item-value="id"></v-select>
+          <v-select
+            v-model="editObject.typeId"
+            :items="fidgetTypes"
+            item-text="typeName"
+            item-value="id"
+          ></v-select>
+          <v-switch v-if="canApproveFidgets" v-model="editObject.isApproved" label="Is Approved?"></v-switch>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -34,6 +52,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import { setTimeout } from "timers";
+import { version } from "punycode";
 export default {
   data() {
     return {
@@ -58,6 +77,10 @@ export default {
           value: "type.typeName"
         },
         {
+          text: "Approved",
+          value: "isApproved"
+        },
+        {
           text: "Actions",
           value: "actions"
         }
@@ -66,23 +89,36 @@ export default {
       editObject: {
         name: "",
         color: "Blue",
-        typeId: -1
+        typeId: -1,
+        isApproved: false
       },
       defaultObject: {
         name: "",
         color: "Blue",
-        typeId: -1
-      }
+        typeId: -1,
+        isApproved: false
+      },
+      showUnapproved: false
     };
   },
   computed: {
     ...mapState({
       fidgetTypes: state => state.fidgetTypes,
-      fidgets: state => state.fidgets
-    })
+      fidgets: state => state.fidgets,
+      canApproveFidgets: state => state.canApproveFidgets
+    }),
+    filteredFidgets() {
+      if (!this.showUnapproved) return this.fidgets;
+      return this.fidgets.filter(p => !p.isApproved);
+    }
   },
   methods: {
-    ...mapActions(["loadFidgetTypes", "loadFidgets", "saveFidgetType", "saveFidget"]),
+    ...mapActions([
+      "loadFidgetTypes",
+      "loadFidgets",
+      "saveFidgetType",
+      "saveFidget"
+    ]),
     editItem(item) {
       this.editIndex = this.fidgets.indexOf(item);
       this.editObject = Object.assign({}, item);

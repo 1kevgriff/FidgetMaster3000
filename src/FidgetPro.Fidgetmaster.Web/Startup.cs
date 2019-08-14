@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FidgetPro.Fidgetmaster.Business.Contracts;
 using FidgetPro.Fidgetmaster.Business.Database;
+using FidgetPro.Fidgetmaster.Business.Models;
 using FidgetPro.Fidgetmaster.Business.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,7 @@ namespace FidgetPro.Fidgetmaster.Web
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<FidgetUser>()
                 .AddEntityFrameworkStores<FidgetContext>()
                 .AddDefaultTokenProviders();
 

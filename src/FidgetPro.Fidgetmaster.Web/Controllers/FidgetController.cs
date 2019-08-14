@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FidgetPro.Fidgetmaster.Business.Contracts;
 using FidgetPro.Fidgetmaster.Business.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,11 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
         [HttpPost("")]
         public async Task<IActionResult> CreateOrUpdateFidget(Fidget fidget)
         {
-            await _fidgetRepository.CreateOrUpdate(fidget);
+            var claim = User?.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+
+            var userName = claim?.Value;
+
+            await _fidgetRepository.CreateOrUpdate(fidget, userName);
 
             return Ok();
         }
