@@ -17,7 +17,11 @@
     <v-dialog v-model="isDialogOpen" max-width="500" persistent>
       <v-card>
         <v-card-title>Edit Fidget</v-card-title>
-        <v-card-text></v-card-text>
+        <v-card-text>
+          <v-text-field v-model="editObject.name" label="Fidget Name"></v-text-field>
+          <v-select v-model="editObject.color" :items="colors" item-text="text" item-value="value"></v-select>
+          <v-select v-model="editObject.typeId" :items="fidgetTypes" item-text="typeName" item-value="id"></v-select>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="closeDialog">Cancel</v-btn>
@@ -34,7 +38,25 @@ export default {
   data() {
     return {
       isDialogOpen: false,
+      colors: [
+        { text: "Blue", value: "Blue" },
+        { text: "Green", value: "Green" },
+        { text: "Yellow", value: "Yellow" },
+        { text: "Purple", value: "Purple" }
+      ],
       headers: [
+        {
+          text: "Name",
+          value: "name"
+        },
+        {
+          text: "Color",
+          value: "color"
+        },
+        {
+          text: "Type",
+          value: "type.typeName"
+        },
         {
           text: "Actions",
           value: "actions"
@@ -42,10 +64,14 @@ export default {
       ],
       editIndex: -1,
       editObject: {
-
+        name: "",
+        color: "Blue",
+        typeId: -1
       },
       defaultObject: {
-
+        name: "",
+        color: "Blue",
+        typeId: -1
       }
     };
   },
@@ -56,7 +82,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["loadFidgetTypes","loadFidgets", "saveFidgetType"]),
+    ...mapActions(["loadFidgetTypes", "loadFidgets", "saveFidgetType", "saveFidget"]),
     editItem(item) {
       this.editIndex = this.fidgets.indexOf(item);
       this.editObject = Object.assign({}, item);
