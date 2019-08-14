@@ -4,14 +4,16 @@ using FidgetPro.Fidgetmaster.Business.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FidgetPro.Fidgetmaster.Business.Migrations
 {
     [DbContext(typeof(FidgetContext))]
-    partial class FidgetContextModelSnapshot : ModelSnapshot
+    [Migration("20190814135048_Auth")]
+    partial class Auth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,7 +73,7 @@ namespace FidgetPro.Fidgetmaster.Business.Migrations
                         new
                         {
                             Id = 1L,
-                            DesignedDate = new DateTime(2019, 8, 14, 14, 7, 7, 662, DateTimeKind.Utc).AddTicks(6784),
+                            DesignedDate = new DateTime(2019, 8, 14, 13, 50, 48, 471, DateTimeKind.Utc).AddTicks(4444),
                             IsBouncing = false,
                             IsFlying = true,
                             IsSpinning = true,
@@ -80,7 +82,7 @@ namespace FidgetPro.Fidgetmaster.Business.Migrations
                         new
                         {
                             Id = 2L,
-                            DesignedDate = new DateTime(2019, 8, 14, 14, 7, 7, 662, DateTimeKind.Utc).AddTicks(8571),
+                            DesignedDate = new DateTime(2019, 8, 14, 13, 50, 48, 471, DateTimeKind.Utc).AddTicks(7912),
                             IsBouncing = true,
                             IsFlying = false,
                             IsSpinning = true,
@@ -89,50 +91,12 @@ namespace FidgetPro.Fidgetmaster.Business.Migrations
                         new
                         {
                             Id = 3L,
-                            DesignedDate = new DateTime(2019, 8, 14, 14, 7, 7, 662, DateTimeKind.Utc).AddTicks(8583),
+                            DesignedDate = new DateTime(2019, 8, 14, 13, 50, 48, 471, DateTimeKind.Utc).AddTicks(7925),
                             IsBouncing = false,
                             IsFlying = false,
                             IsSpinning = false,
                             TypeName = "Chad"
                         });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail");
-
-                    b.Property<string>("NormalizedUserName");
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FidgetPro.Fidgetmaster.Business.Models.Fidget", b =>

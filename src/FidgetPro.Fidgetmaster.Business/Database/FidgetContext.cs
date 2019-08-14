@@ -1,5 +1,6 @@
 ﻿using System;
 using FidgetPro.Fidgetmaster.Business.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace FidgetPro.Fidgetmaster.Business.Database
@@ -13,6 +14,7 @@ namespace FidgetPro.Fidgetmaster.Business.Database
         }
         public DbSet<Fidget> Fidgets { get; set; }
         public DbSet<FidgetType> FidgetTypes { get; set; }
+        public DbSet<IdentityUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
