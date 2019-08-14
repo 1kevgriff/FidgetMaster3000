@@ -10,6 +10,9 @@ import fidgetMutations from "./store/mutations/fidgets";
 import loginActions from "./store/actions/login";
 import loginMutations from "./store/mutations/login";
 
+import { setHeader } from "./store/actions/auth";
+setHeader();
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({

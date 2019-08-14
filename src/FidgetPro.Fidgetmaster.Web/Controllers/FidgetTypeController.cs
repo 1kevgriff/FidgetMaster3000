@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using FidgetPro.Fidgetmaster.Business.Contracts;
 using FidgetPro.Fidgetmaster.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FidgetPro.Fidgetmaster.Web.Controllers
 {
     [Route("api/fidgetTypes")]
     [ApiController]
+    [Authorize]
     public class FidgetTypeController : ControllerBase
     {
         private readonly IFidgetTypeRepository _fidgetTypeRepository;

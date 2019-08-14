@@ -71,19 +71,19 @@ namespace FidgetPro.Fidgetmaster.Web
             });
 
             // TODO: add authorization
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("RequireAdministratorRole",
-            //        policy => policy.RequireRole("Administrator"));
+            services.AddAuthorization(options =>
+            {
+                var authBuilder =
+                    new AuthorizationPolicyBuilder(
+                            new List<string>()
+                            {
+                                JwtBearerDefaults.AuthenticationScheme
+                            }.ToArray())
+                        .RequireAuthenticatedUser().Build();
 
-            //    var authBuilder =
-            //        new AuthorizationPolicyBuilder(
-            //                new List<string>() { JwtBearerDefaults.AuthenticationScheme }.ToArray())
-            //            .RequireAuthenticatedUser().Build();
-
-            //    options.AddPolicy("Bearer", authBuilder);
-            //    options.DefaultPolicy = authBuilder;
-            //});
+                options.AddPolicy("Bearer", authBuilder);
+                options.DefaultPolicy = authBuilder;
+            });
 
             services.AddMvc();
 
