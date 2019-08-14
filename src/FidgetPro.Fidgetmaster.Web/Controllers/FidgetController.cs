@@ -8,10 +8,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FidgetPro.Fidgetmaster.Web.Controllers
 {
+    public class BaseController : ControllerBase
+    {
+        public string AuthenticatedUserName
+        {
+            get
+            {
+                var claim = User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                var userName = claim?.Value;
+                return userName;
+            }
+        }
+
+        public bool CanApproveFidgets
+        {
+            get {
+                return User.Claims.Any(p =>
+                    p.Type == ClaimTypes.Role && p.Value == "CanApproveFidgets");
+            }
+        }
+    }
+
     [Route("api/fidgets")]
     [ApiController]
     [Authorize]
-    public class FidgetController : ControllerBase
+    public class FidgetController : BaseController
     {
         private readonly IFidgetRepository _fidgetRepository;
 
@@ -30,14 +51,7 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
         public async Task<IActionResult> CreateOrUpdateFidget(Fidget fidget)
         {
             if (User == null) return Unauthorized();
-
-            var claim = User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-            var userName = claim?.Value;
-
-            var canApproveFidgets = User.Claims.Any(p => 
-                p.Type == ClaimTypes.Role && p.Value == "CanApproveFidgets");
-
-            await _fidgetRepository.CreateOrUpdate(fidget, userName, canApproveFidgets);
+            await _fidgetRepository.CreateOrUpdate(fidget, AuthenticatedUserName, CanApproveFidgets);
 
             return Ok();
         }

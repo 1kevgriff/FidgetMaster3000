@@ -44,5 +44,16 @@ namespace FidgetPro.Fidgetmaster.Business.Repositories
 
             await _context.SaveChangesAsync(true);
         }
+
+        public async Task DeleteFidgetType(long id)
+        {
+            var existing = await _context.FidgetTypes.FindAsync(id);
+            if (existing != null)
+            {
+                _context.FidgetTypes.Remove(existing);
+
+                await _context.SaveChangesAsync(true);
+            }
+        }
     }
 }

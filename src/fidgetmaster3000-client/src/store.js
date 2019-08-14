@@ -22,7 +22,13 @@ export default new Vuex.Store({
     fidgetTypes: [],
     fidgets: [],
     loginError: "",
-    canApproveFidgets: userCanApproveFidgets
+    canApproveFidgets: userCanApproveFidgets,
+    error: {
+      deleteFidget: ""
+    },
+    snackbar: {
+      showDeleteFidgetError: false
+    }
   },
   mutations: {
     ...fidgetTypeMutations,

@@ -11,8 +11,17 @@ export default {
     saveFidgetType({ dispatch }, item) {
         var api = "/api/fidgetTypes";
 
-        axios.post(api, item).then(()=>{
+        axios.post(api, item).then(() => {
             dispatch("loadFidgetTypes");
+        });
+    },
+    deleteFidgetType({ commit, dispatch }, item) {
+        var api = "/api/fidgetTypes/" + item.id;
+
+        axios.delete(api).then(() => {
+            dispatch("loadFidgetTypes");
+        }, () => {
+            commit("DELETE_FIDGET_ERROR", item);
         });
     }
 }

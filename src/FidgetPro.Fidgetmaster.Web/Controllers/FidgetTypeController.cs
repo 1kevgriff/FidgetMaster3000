@@ -34,5 +34,12 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFidgetType(long id)
+        {
+            await _fidgetTypeRepository.DeleteFidgetType(id);
+            return Ok();
+        }
     }
 }

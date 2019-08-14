@@ -10,5 +10,6 @@ namespace FidgetPro.Fidgetmaster.Business.Contracts
     {
         Task<List<FidgetType>> GetFidgetTypes();
         Task CreateOrUpdate(FidgetType fidgetType);
+        Task DeleteFidgetType(long id);
     }
 }

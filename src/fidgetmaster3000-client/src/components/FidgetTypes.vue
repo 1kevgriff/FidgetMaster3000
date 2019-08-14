@@ -34,10 +34,10 @@
       <v-card>
         <v-card-title>Edit Type</v-card-title>
         <v-card-text>
-            <v-text-field v-model="editTypeObject.typeName" label="Type Name"></v-text-field>
-            <v-checkbox v-model="editTypeObject.isSpinning" label="Spins?"></v-checkbox>
-            <v-checkbox v-model="editTypeObject.isBouncing" label="Bounces?"></v-checkbox>
-            <v-checkbox v-model="editTypeObject.isFlying" label="Flys?"></v-checkbox>
+          <v-text-field v-model="editTypeObject.typeName" label="Type Name"></v-text-field>
+          <v-checkbox v-model="editTypeObject.isSpinning" label="Spins?"></v-checkbox>
+          <v-checkbox v-model="editTypeObject.isBouncing" label="Bounces?"></v-checkbox>
+          <v-checkbox v-model="editTypeObject.isFlying" label="Flys?"></v-checkbox>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -46,15 +46,28 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="isConfirmationDialogOpen">
+      <v-card>
+        <v-card-title>Delete Fidget?</v-card-title>
+        <v-card-text>Are you sure you want to delete {{editTypeObject.typeName}}?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="darken-1" text @click="isConfirmationDialogOpen = false">No</v-btn>
+          <v-btn color="primary darken-1" @click="confirmDeleteItem">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar v-model="showSnackbar">{{deleteFidgetError}}</v-snackbar>
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import { setTimeout } from 'timers';
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
       isTypeDialogOpen: false,
+      isConfirmationDialogOpen: false,
       headers: [
         {
           text: "Type",
@@ -98,27 +111,38 @@ export default {
   },
   computed: {
     ...mapState({
-      fidgetTypes: state => state.fidgetTypes
+      fidgetTypes: state => state.fidgetTypes,
+      deleteFidgetError: state => state.error.deleteFidget,
+      showSnackbar: state => state.snackbar.showDeleteFidgetError
     })
   },
   methods: {
-    ...mapActions(["loadFidgetTypes", "saveFidgetType"]),
+    ...mapActions(["loadFidgetTypes", "saveFidgetType", "deleteFidgetType"]),
     editItem(item) {
-        this.editTypeIndex = this.fidgetTypes.indexOf(item);
-        this.editTypeObject = Object.assign({}, item);
-        this.isTypeDialogOpen = true;
+      this.editTypeIndex = this.fidgetTypes.indexOf(item);
+      this.editTypeObject = Object.assign({}, item);
+      this.isTypeDialogOpen = true;
     },
-    deleteItem(item){},
-    saveItem(){
-        this.saveFidgetType(this.editTypeObject);
-        this.closeDialog();
+    deleteItem(item) {
+      this.isConfirmationDialogOpen = true;
+      this.editTypeIndex = this.fidgetTypes.indexOf(item);
+      this.editTypeObject = Object.assign({}, item);
+    },
+    confirmDeleteItem() {
+      this.deleteFidgetType(this.editTypeObject);
+      this.isConfirmationDialogOpen = false;
+      this.closeDialog();
+    },
+    saveItem() {
+      this.saveFidgetType(this.editTypeObject);
+      this.closeDialog();
     },
     closeDialog() {
-        this.isTypeDialogOpen = false;
-        setTimeout(() => {
-            this.editTypeObject = Object.assign({}, this.defaultTypeObject);
-            this.editTypeIndex = -1;
-        }, 300);
+      this.isTypeDialogOpen = false;
+      setTimeout(() => {
+        this.editTypeObject = Object.assign({}, this.defaultTypeObject);
+        this.editTypeIndex = -1;
+      }, 300);
     }
   },
   created() {

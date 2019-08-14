@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FidgetPro.Fidgetmaster.Business.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,13 @@ namespace FidgetPro.Fidgetmaster.Business.Database
             {
                 Color = "Green", Id = 1, Name = "Foo", TypeId = 2
             });
+
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach (var fk in cascadeFKs)
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
 
             base.OnModelCreating(modelBuilder);
         }
