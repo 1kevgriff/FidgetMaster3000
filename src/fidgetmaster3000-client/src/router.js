@@ -14,6 +14,7 @@ export default new Router({
       name: 'home',
       component: Home
     },
+    { path: '/login', name: "login", component: () => import ("./components/Login")},
     { path: '/fidget/types', name: "fidgetTypes", component: () => import("./components/FidgetTypes") },
     { path: '/fidgets', name: "fidgetList", component: () => import("./components/FidgetList") },
     { path: '/fidgets/:id', name: "fidgetDetails", component: () => import("./components/FidgetDetails") },
