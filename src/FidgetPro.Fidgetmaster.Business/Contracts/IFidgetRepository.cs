@@ -7,6 +7,6 @@ namespace FidgetPro.Fidgetmaster.Business.Contracts
     public interface IFidgetRepository
     {
         Task<List<Fidget>> GetFidgets();
-        Task CreateOrUpdate(Fidget fidget, string userName);
+        Task CreateOrUpdate(Fidget fidget, string userName, bool canApproveFidgets);
     }
 }

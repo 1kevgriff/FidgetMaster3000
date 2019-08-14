@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using FidgetPro.Fidgetmaster.Business.Contracts;
 using FidgetPro.Fidgetmaster.Business.Models;
@@ -28,11 +29,15 @@ namespace FidgetPro.Fidgetmaster.Web.Controllers
         [HttpPost("")]
         public async Task<IActionResult> CreateOrUpdateFidget(Fidget fidget)
         {
-            var claim = User?.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+            if (User == null) return Unauthorized();
 
+            var claim = User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
             var userName = claim?.Value;
 
-            await _fidgetRepository.CreateOrUpdate(fidget, userName);
+            var canApproveFidgets = User.Claims.Any(p => 
+                p.Type == ClaimTypes.Role && p.Value == "CanApproveFidgets");
+
+            await _fidgetRepository.CreateOrUpdate(fidget, userName, canApproveFidgets);
 
             return Ok();
         }

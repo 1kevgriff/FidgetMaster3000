@@ -51,8 +51,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import { setTimeout } from "timers";
-import { version } from "punycode";
+
 export default {
   data() {
     return {
